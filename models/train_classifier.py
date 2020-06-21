@@ -60,7 +60,9 @@ def build_model():
     ('tfidf',TfidfTransformer()),
     ('clf',MultiOutputClassifier(forest))
     ])
-    return pipeline
+    parameters={'clf__estimator__n_estimators': [50, 100, 200]}
+    cv = GridSearchCV(pipeline,parameters,n_jobs=-1,cv=2)
+    return cv
 def evaluate_model(model, X_test, y_test, category_names):
     y_pred=model.predict(X_test)
     scores=[]
@@ -91,6 +93,7 @@ def main():
         
         print('Training model...')
         model.fit(X_train, y_train)
+        print("the best number of estimators is {}".format(model.best_params_['clf__estimator__n_estimators']))
         
         print('Evaluating model...')
         evaluate_model(model, X_test, y_test, category_names)

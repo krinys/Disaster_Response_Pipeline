@@ -27,7 +27,7 @@ def tokenize(text):
     return clean_tokens
 
 # load data
-conn=sqlite3.connect('../data/mydatabase.db')
+conn=sqlite3.connect('../data/DisasterResponse.db')
 df = pd.read_sql('SELECT * FROM information',con=conn)
 
 # load model
